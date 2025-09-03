@@ -15,7 +15,7 @@ figure(1); % init the figure
 
 % --------------------------------------
 % plot part (a):
-% plot exact y and taylor approximation
+% plot exact y and taylor approximation on n = 2
 % --------------------------------------
 
 plot(x, y_exact, 'g-'); hold on;
