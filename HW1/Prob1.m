@@ -5,6 +5,11 @@
 clc, clearvars
 close all
 
+% --------------------------------------
+% Compare exact values of cos(x)
+% to different Taylor approximations.
+% --------------------------------------
+
 h = 0.1; % domain spacing of 0.1
 x = [-pi:h:pi]; % domain [-pi, pi]
 
@@ -48,6 +53,6 @@ legend( ...
     'Taylor_2', ...
     'Taylor_4', ...
     'Error, Exact - Taylor_2', ...
-    'Error, Exact - Taylor_ 4');
+    'Error, Exact - Taylor_4');
 title('y = cos(x) vs. Taylor Approximations of n = 2, 4');
 grid on;
