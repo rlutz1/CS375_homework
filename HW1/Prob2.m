@@ -22,6 +22,7 @@ close all
 
 
 t_f = 200; % setting to 200 shows convergence clearly
+ts = [0:t_f]
 
 % given values of r and K
 r = 0.05;
@@ -37,9 +38,9 @@ N_0_3 = 1300;
 N_prime = @(t, N) r * N * (1 - N/K);
 
 % solve the ode with the runge-kutta scheme, ode45
-[t1, N1_rk] = ode45(N_prime, [0:t_f], N_0_1);
-[t2, N2_rk] = ode45(N_prime, [0:t_f], N_0_2);
-[t3, N3_rk] = ode45(N_prime, [0:t_f], N_0_3);
+[t1, N1_rk] = ode45(N_prime, ts, N_0_1);
+[t2, N2_rk] = ode45(N_prime, ts, N_0_2);
+[t3, N3_rk] = ode45(N_prime, ts, N_0_3);
 
 % plot the models
 figure(1);
@@ -67,10 +68,10 @@ t_f = 2000; % note: 10 times the steps needed to see convergence
 ts = [0:t_f];
 
 % initial value: 100
-N_0 =100;
+N_0 = 100;
 N_curr = N_0;
 N_next = N_0;
-N1_eu = zeros(size(ts));
+N1_eu = zeros(size(ts)); N1_eu(1) = N_curr;
 dt = 0.1; % setting based on class work
 
 for t = ts;
