@@ -66,11 +66,11 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 t_f = 2000; % note: 10 times the steps needed to see convergence
 ts = [0:t_f];
 
-% initial value: 100
+% N_0 = 100
 N_0 =100;
 N_curr = N_0;
 N_next = N_0;
-N1_eu = zeros(size(ts));
+N1_eu = [];
 dt = 0.1; % setting based on class work
 
 for t = ts;
@@ -79,11 +79,11 @@ for t = ts;
     N_curr = N_next;
 end;
 
-% initial value: 750
+% N_0 = 750
 N_0 = 750;
 N_curr = N_0;
 N_next = N_0;
-N2_eu = zeros(size(ts));
+N2_eu = [];
 dt = 0.1; % setting based on class work
 
 for t = ts;
@@ -92,11 +92,11 @@ for t = ts;
     N_curr = N_next;
 end;
 
-% initial value: 1300
+% N_0 = 1300
 N_0 = 1300;
 N_curr = N_0;
 N_next = N_0;
-N3_eu = zeros(size(ts));
+N3_eu = [];
 dt = 0.1; % setting based on class work
 
 for t = ts;
@@ -133,7 +133,7 @@ N_0 = 100;
 N_curr = N_0;
 N_next = N_0;
 N_tilde = N_0;
-N1_euImproved = zeros(size(ts));
+N1_euImproved = [];
 dt = 0.1; % setting based on class work
 
 for t = ts;
@@ -143,13 +143,42 @@ for t = ts;
     N_curr = N_next;
 end;
 
-% plot improved euler against euler at N_0 = 100
+N_0 = 750;
+N_curr = N_0;
+N_next = N_0;
+N_tilde = N_0;
+N2_euImproved = [];
+dt = 0.1; % setting based on class work
 
+for t = ts;
+    N_tilde = N_curr + dt * N_prime(t, N_curr);
+    N_next = N_curr + (dt / 2) * (N_prime(t, N_curr) + N_prime(t, N_tilde));
+    N2_euImproved(t + 1) = N_next;
+    N_curr = N_next;
+end;
+
+
+N_0 = 1300;
+N_curr = N_0;
+N_next = N_0;
+N_tilde = N_0;
+N3_euImproved = [];
+dt = 0.1; % setting based on class work
+
+for t = ts;
+    N_tilde = N_curr + dt * N_prime(t, N_curr);
+    N_next = N_curr + (dt / 2) * (N_prime(t, N_curr) + N_prime(t, N_tilde));
+    N3_euImproved(t + 1) = N_next;
+    N_curr = N_next;
+end;
 figure(3);
 
-plot(ts, N1_eu, 'g*', ts, N1_euImproved, 'r+'); hold on;
+plot(ts, N1_eu, 'g*', ts, N1_euImproved, 'r+', ...
+    ts, N2_eu, 'g*', ts, N2_euImproved, 'r+', ...
+    ts, N3_eu, 'g*', ts, N3_euImproved, 'r+'); 
+hold on;
 
-legend('Euler Scheme', 'Improved Euler Scheme');
+legend('', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
 ylabel('Change in N (N)');
-title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100)");
+title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100");
