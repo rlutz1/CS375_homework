@@ -53,11 +53,11 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 % Euler's scheme.
 % --------------------------------------
 
-t_f = 2000; % note: 10 times the steps needed to see convergence
+t_f = 200; % note: 10 times the steps needed to see convergence
 ts = [0:t_f];
 
 iterations = length(ts); % how many times to run the scheme
-dt = 0.1; % setting as to follow class examples
+dt = 1; % setting as to be on the same scale as ode45
 
 N1_eu = euler(iterations, N0_1, dt, @(N) log_model(N, r, K));
 N2_eu = euler(iterations, N0_2, dt, @(N) log_model(N, r, K));
