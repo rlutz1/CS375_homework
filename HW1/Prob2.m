@@ -12,7 +12,7 @@ close all
 % using built in ODE45
 % --------------------------------------
 
-% show different initial values and how it affects
+% initial values given
 N0_1 = 100;
 N0_2 = 750;
 N0_3 = 1300;
@@ -52,9 +52,6 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 % repeat part (a) but by implementing 
 % Euler's scheme.
 % --------------------------------------
-
-t_f = 200; % note: 10 times the steps needed to see convergence
-ts = [0:t_f];
 
 iterations = length(ts); % how many times to run the scheme
 dt = 1; % setting as to be on the same scale as ode45

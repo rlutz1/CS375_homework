@@ -35,4 +35,26 @@ All exact and n = 2, 4 approximations plotted, along with the approximations' ab
 ## Prob2.m
 
 This script requires 3 other function files: 
-+ log_model
++ logModel -> contains the logistic model function/ODE
++ euler -> contains the implementation of euler's scheme
++ eulerImproved -> contains the implementation of euler's IMPROVED scheme
+
+Otherwise, the script runs in order from Part's A - C.
+
+The figure values are as follows:
+
+### Figure 1
+
+Figure to show all initial conditions using ode45 (or Runge-Kutta) for solving logistic model (N0 = 100, 750, 1300).
+
+### Figure 2
+
+Figure to show all initial conditions using Euler's scheme for solving logistic model (N0 = 100, 750, 1300).
+
+### Figure 3
+
+The figure to illustrate the difference between Euler and Euler improved for a single initial condition (N0 = 100 was chosen).
+
+### Figure 4
+
+An optional figure to showcasehow Euler and euler improved compare against each other.
