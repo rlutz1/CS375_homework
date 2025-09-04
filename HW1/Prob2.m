@@ -35,12 +35,12 @@ N_0_3 = 1300;
 
 % the given model:
 % N' = rN(1-(N/K)), N(0) = N_0
-N_prime = @(t, N) r * N * (1 - N/K);
+%N_prime = @(t, N) r * N * (1 - N/K);
 
 % solve the ode with the runge-kutta scheme, ode45
-[t1, N1_rk] = ode45(N_prime, ts, N_0_1);
-[t2, N2_rk] = ode45(N_prime, ts, N_0_2);
-[t3, N3_rk] = ode45(N_prime, ts, N_0_3);
+[t1, N1_rk] = ode45(@(t, N) log_model(N), ts, N_0_1);
+[t2, N2_rk] = ode45(@(t, N) log_model(N), ts, N_0_2);
+[t3, N3_rk] = ode45(@(t, N) log_model(N), ts, N_0_3);
 
 % plot the models
 figure(1);
