@@ -13,9 +13,9 @@ close all
 % --------------------------------------
 
 % show different initial values and how it affects
-N_0_1 = 100;
-N_0_2 = 750;
-N_0_3 = 1300;
+N0_1 = 100;
+N0_2 = 750;
+N0_3 = 1300;
 
 % --------------------------------------
 % plot part (a):
@@ -28,19 +28,15 @@ N_0_3 = 1300;
 t_f = 200; % setting to 200 shows convergence clearly
 ts = [0:t_f]
 
-% the given model:
-% N' = rN(1-(N/K)), N(0) = N_0
-%N_prime = @(t, N) r * N * (1 - N/K);
-
 % solve the ode with the runge-kutta scheme, ode45
-[t1, N1_rk] = ode45(@(t, N) log_model(N), ts, N_0_1);
-[t2, N2_rk] = ode45(@(t, N) log_model(N), ts, N_0_2);
-[t3, N3_rk] = ode45(@(t, N) log_model(N), ts, N_0_3);
+[t1, N1_rk] = ode45(@(t, N) log_model(N), ts, N0_1);
+[t2, N2_rk] = ode45(@(t, N) log_model(N), ts, N0_2);
+[t3, N3_rk] = ode45(@(t, N) log_model(N), ts, N0_3);
 
 % plot the models
 figure(1);
 
-plot(ts, N1_rk, 'g--', ts, N2_rk, 'b--', t3, N3_rk, 'y--'); hold on;
+plot(ts, N1_rk, 'g--', ts, N2_rk, 'b--', t3, N3_rk, 'y--', 'LineWidth', 1); hold on;
 
 legend('N_0 = 100', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
@@ -56,18 +52,18 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 t_f = 2000; % note: 10 times the steps needed to see convergence
 ts = [0:t_f];
 
-iterations = length(ts);
+iterations = length(ts); % how many times to run the scheme
 dt = 0.1; % setting as to follow class examples
 
-N1_eu = euler(iterations, N_0_1, dt, @(N) log_model(N));
-N2_eu = euler(iterations, N_0_2, dt, @(N) log_model(N));
-N3_eu = euler(iterations, N_0_3, dt, @(N) log_model(N));
+N1_eu = euler(iterations, N0_1, dt, @(N) log_model(N));
+N2_eu = euler(iterations, N0_2, dt, @(N) log_model(N));
+N3_eu = euler(iterations, N0_3, dt, @(N) log_model(N));
 
 % plot euler's scheme
 
 figure(2);
 
-plot(ts, N1_eu, 'g--', ts, N2_eu, 'b--', ts, N3_eu, 'y--'); hold on;
+plot(ts, N1_eu, 'g--', ts, N2_eu, 'b--', ts, N3_eu, 'y--', 'LineWidth', 1); hold on;
 
 legend('N_0 = 100', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
@@ -80,10 +76,10 @@ title("Logistic Model, Euler's Scheme (N_0 = 100, 750, 1300)");
 % and plot both Euler's and Improved Eulers.
 % --------------------------------------
 
-% we will choose N_0 = 100
+% we will choose N0 = 100
 % keep other variables unchanged for consistency
 
-N1_euImproved = eulerImproved(iterations, N_0_1, dt, @(N) log_model(N));
+N1_euImproved = eulerImproved(iterations, N0_1, dt, @(N) log_model(N));
 
 % plot improved euler against euler at N_0 = 100
 
@@ -98,18 +94,18 @@ title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100)");
 
 % for fun: figures with all euler & improved comparisons
 
-N2_euImproved = eulerImproved(iterations, N_0_2, dt, @(N) log_model(N));
-N3_euImproved = eulerImproved(iterations, N_0_3, dt, @(N) log_model(N));
+N2_euImproved = eulerImproved(iterations, N0_2, dt, @(N) log_model(N));
+N3_euImproved = eulerImproved(iterations, N0_3, dt, @(N) log_model(N));
 
 figure(4);
 
 plot(ts, N1_eu, 'g-', ...
     ts, N1_euImproved, 'r--', ...
-    ts, N2_eu, 'g-', ...
-    ts, N2_euImproved, 'r--', ...
-    ts, N3_eu, 'g-', ...
-    ts, N3_euImproved, 'r--', ...
-    'LineWidth', 1.5 ...
+    ts, N2_eu, 'b-', ...
+    ts, N2_euImproved, 'c--', ...
+    ts, N3_eu, 'm-', ...
+    ts, N3_euImproved, 'y--', ...
+    'LineWidth', 1 ...
     ); hold on;
 
 legend('Euler Scheme, N_0 = 100', ...
@@ -122,4 +118,3 @@ legend('Euler Scheme, N_0 = 100', ...
 xlabel('Time (t)');
 ylabel('Change in N (N)');
 title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100, 750, 1300)");
-
