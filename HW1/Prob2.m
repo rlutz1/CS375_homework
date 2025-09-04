@@ -81,33 +81,45 @@ title("Logistic Model, Euler's Scheme (N_0 = 100, 750, 1300)");
 % --------------------------------------
 
 % we will choose N_0 = 100
+% keep other variables unchanged for consistency
 
-% implement improved Eulers
-
-t_f = 2000; 
-ts = [0:t_f];
-
-N_0 = 100;
-N_curr = N_0;
-N_next = N_0;
-N_tilde = N_0;
-N1_euImproved = zeros(size(ts));
-dt = 0.1; % setting based on class work
-
-for t = ts;
-    N_tilde = N_curr + dt * N_prime(t, N_curr);
-    N_next = N_curr + (dt / 2) * (N_prime(t, N_curr) + N_prime(t, N_tilde));
-    N1_euImproved(t + 1) = N_next;
-    N_curr = N_next;
-end;
+N1_euImproved = eulerImproved(iterations, N_0_1, dt, @(N) log_model(N));
 
 % plot improved euler against euler at N_0 = 100
 
 figure(3);
 
-plot(ts, N1_eu, 'g*', ts, N1_euImproved, 'r+'); hold on;
+plot(ts, N1_eu, 'g-', ts, N1_euImproved, 'r--', 'LineWidth', 1.5); hold on;
 
 legend('Euler Scheme', 'Improved Euler Scheme');
 xlabel('Time (t)');
 ylabel('Change in N (N)');
 title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100)");
+
+% for fun: figures with all euler & improved comparisons
+
+N2_euImproved = eulerImproved(iterations, N_0_2, dt, @(N) log_model(N));
+N3_euImproved = eulerImproved(iterations, N_0_3, dt, @(N) log_model(N));
+
+figure(4);
+
+plot(ts, N1_eu, 'g-', ...
+    ts, N1_euImproved, 'r--', ...
+    ts, N2_eu, 'g-', ...
+    ts, N2_euImproved, 'r--', ...
+    ts, N3_eu, 'g-', ...
+    ts, N3_euImproved, 'r--', ...
+    'LineWidth', 1.5 ...
+    ); hold on;
+
+legend('Euler Scheme, N_0 = 100', ...
+    'Improved Euler Scheme, N_0 = 100', ...
+    'Euler Scheme, N_0 = 750', ...
+    'Improved Euler Scheme, N_0 = 750', ...
+    'Euler Scheme, N_0 = 1300', ...
+    'Improved Euler Scheme, N_0 = 1300' ...
+    );
+xlabel('Time (t)');
+ylabel('Change in N (N)');
+title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100, 750, 1300)");
+
