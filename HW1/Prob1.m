@@ -85,6 +85,7 @@ grid on;
 % formula for absolute/actual error: |f(x) - P_n(x)|
 e_2 = abs(y_exact - y_taylor2);
 e_4 = abs(y_exact - y_taylor4);
+e_6 = abs(y_exact - y_taylor6);
 
 figure(4); % just error plotting
 plot(x, e_2, 'ro', x, e_4, 'r.'); hold on;
@@ -98,10 +99,25 @@ xlabel('Domain, [-pi, pi] with h = 0.1');
 ylabel('Range, output of all differing functions');
 grid on;
 
-% some coherency for analyzing
+% just for fun: plot the error of taylor n = 6
+
+e_6 = abs(y_exact - y_taylor6);
+
+figure(5); % just error plotting
+plot(x, e_2, 'ro', x, e_4, 'r.', x, e_6, 'r--'); hold on;
+
+legend( ...
+    'Error, Exact - Taylor_2', ...
+    'Error, Exact - Taylor_4', ...
+    'Error, Exact - Taylor_6' ...
+    );
+title('Absolute Error for y = cos(x) vs. Taylor Approximations of n = 2, 4, 6');
+xlabel('Domain, [-pi, pi] with h = 0.1');
+ylabel('Range, output of all differing functions');
+grid on;
 
 % plot ALL graphs
-figure(5); % init the figure
+figure(6); % init the figure
 plot(x, y_exact, 'g-'); hold on;
 plot(x, y_taylor2, 'b*'); hold on;
 plot(x, y_taylor4, 'c*'); hold on;
