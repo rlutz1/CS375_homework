@@ -12,6 +12,11 @@ close all
 % using built in ODE45
 % --------------------------------------
 
+% show different initial values and how it affects
+N_0_1 = 100;
+N_0_2 = 750;
+N_0_3 = 1300;
+
 % --------------------------------------
 % plot part (a):
 % use: r = 0.05, K = 1000, N_0 = 100
@@ -20,18 +25,8 @@ close all
 % change values of N_0 to 750, 1300...
 % --------------------------------------
 
-
 t_f = 200; % setting to 200 shows convergence clearly
 ts = [0:t_f]
-
-% given values of r and K
-r = 0.05;
-K = 1000;
-
-% show different initial values and how it affects
-N_0_1 = 100;
-N_0_2 = 750;
-N_0_3 = 1300;
 
 % the given model:
 % N' = rN(1-(N/K)), N(0) = N_0
@@ -45,9 +40,7 @@ N_0_3 = 1300;
 % plot the models
 figure(1);
 
-plot(t1, N1_rk, 'g--'); hold on;
-plot(t2, N2_rk, 'b--'); hold on;
-plot(t3, N3_rk, 'y--'); hold on;
+plot(ts, N1_rk, 'g--', ts, N2_rk, 'b--', t3, N3_rk, 'y--'); hold on;
 
 legend('N_0 = 100', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
@@ -60,51 +53,15 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 % Euler's scheme.
 % --------------------------------------
 
-% Euler's base scheme is as follows:
-% x_n+1 = x_n + dt * f'(x_n), x(0) = x_0
-
-% implementing Eulers:
 t_f = 2000; % note: 10 times the steps needed to see convergence
 ts = [0:t_f];
 
-% initial value: 100
-N_0 = 100;
-N_curr = N_0;
-N_next = N_0;
-N1_eu = zeros(size(ts)); N1_eu(1) = N_curr;
-dt = 0.1; % setting based on class work
+iterations = length(ts);
+dt = 0.1; % setting as to follow class examples
 
-for t = ts;
-    N_next = N_curr + dt * N_prime(t, N_curr);
-    N1_eu(t + 1) = N_next;
-    N_curr = N_next;
-end;
-
-% initial value: 750
-N_0 = 750;
-N_curr = N_0;
-N_next = N_0;
-N2_eu = zeros(size(ts));
-dt = 0.1; % setting based on class work
-
-for t = ts;
-    N_next = N_curr + dt * N_prime(t, N_curr);
-    N2_eu(t + 1) = N_next;
-    N_curr = N_next;
-end;
-
-% initial value: 1300
-N_0 = 1300;
-N_curr = N_0;
-N_next = N_0;
-N3_eu = zeros(size(ts));
-dt = 0.1; % setting based on class work
-
-for t = ts;
-    N_next = N_curr + dt * N_prime(t, N_curr);
-    N3_eu(t + 1) = N_next;
-    N_curr = N_next;
-end;
+N1_eu = euler(iterations, N_0_1, dt, @(N) log_model(N));
+N2_eu = euler(iterations, N_0_2, dt, @(N) log_model(N));
+N3_eu = euler(iterations, N_0_3, dt, @(N) log_model(N));
 
 % plot euler's scheme
 
