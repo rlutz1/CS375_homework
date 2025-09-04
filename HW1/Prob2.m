@@ -17,7 +17,7 @@ N0_1 = 100;
 N0_2 = 750;
 N0_3 = 1300;
 
-% logisitic model constants given
+% logistic model constants given
 r = 0.05;
 K = 1000;
 
@@ -30,7 +30,8 @@ K = 1000;
 % --------------------------------------
 
 t_f = 200; % setting to 200 shows convergence clearly
-ts = [0:0.1:t_f];
+dt = 0.01; % setting with somewhat small steps
+ts = [0:dt:t_f];
 
 % solve the ode with the runge-kutta scheme, ode45
 [t1, N1_rk] = ode45(@(t, N) logModel(N, r, K), ts, N0_1);
@@ -44,7 +45,7 @@ plot(ts, N1_rk, 'g--', ts, N2_rk, 'b--', t3, N3_rk, 'y--', 'LineWidth', 1); hold
 
 legend('N_0 = 100', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
-ylabel('Change in N (N)');
+ylabel('Change in N (N(t))');
 title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 
 % --------------------------------------
@@ -54,7 +55,6 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 % --------------------------------------
 
 iterations = length(ts); % how many times to run the scheme
-dt = 0.1; % setting as to be on the same scale as ode45
 
 N1_eu = euler(iterations, N0_1, dt, @(N) logModel(N, r, K));
 N2_eu = euler(iterations, N0_2, dt, @(N) logModel(N, r, K));
@@ -68,7 +68,7 @@ plot(ts, N1_eu, 'g--', ts, N2_eu, 'b--', ts, N3_eu, 'y--', 'LineWidth', 1); hold
 
 legend('N_0 = 100', 'N_0 = 750', 'N_0 = 1300');
 xlabel('Time (t)');
-ylabel('Change in N (N)');
+ylabel('Change in N (N(t))');
 title("Logistic Model, Euler's Scheme (N_0 = 100, 750, 1300)");
 
 % --------------------------------------
@@ -90,7 +90,7 @@ plot(ts, N1_eu, 'g-', ts, N1_euImproved, 'r--', 'LineWidth', 1.5); hold on;
 
 legend('Euler Scheme', 'Improved Euler Scheme');
 xlabel('Time (t)');
-ylabel('Change in N (N)');
+ylabel('Change in N (N(t))');
 title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100)");
 
 % for fun: figures with all euler & improved comparisons
@@ -117,5 +117,43 @@ legend('Euler Scheme, N_0 = 100', ...
     'Improved Euler Scheme, N_0 = 1300' ...
     );
 xlabel('Time (t)');
-ylabel('Change in N (N)');
+ylabel('Change in N (N(t))');
 title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100, 750, 1300)");
+
+
+% some fun: error plotting between the methods
+% ode45 is mathematically known to be more accurate 
+% with error O(dt^4).
+% how does that compare to euler's (O(dt))
+% and euler's imrpoved (O(dt^2))? 
+
+e1_rkVSeu = abs(N1_rk - N1_eu);
+e1_rkVSeuImproved = abs(N1_rk - N1_euImproved);
+
+e2_rkVSeu = abs(N2_rk - N2_eu);
+e2_rkVSeuImproved = abs(N2_rk - N2_euImproved);
+
+e3_rkVSeu = abs(N3_rk - N3_eu);
+e3_rkVSeuImproved = abs(N3_rk - N3_euImproved);
+
+figure(5);
+
+plot(ts, e1_rkVSeu, 'g--', ...
+    ts, e1_rkVSeuImproved, 'y:', ...
+    ts, e2_rkVSeu, 'b--', ...
+    ts, e2_rkVSeuImproved, 'c:', ...
+    ts, e3_rkVSeu, 'm--', ...
+    ts, e3_rkVSeuImproved, 'r:' ...
+    ); hold on;
+
+legend('RK VS EU, N_0 = 100', ...
+    'RK VS EUIMPROVED, N_0 = 100', ...
+    'RK VS EU, N_0 = 750', ...
+    'RK VS EUIMPROVED, N_0 = 750', ...
+    'RK VS EU, N_0 = 1300', ...
+    'RK VS EUIMPROVED, N_0 = 1300' ...
+    );
+xlabel('Time (t)');
+ylabel('Change in N (N(t))');
+title("Error Comparisons between RK (ode45), eu and euImproved (N_0 = 100, 750, 1300)");
+
