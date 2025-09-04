@@ -30,7 +30,7 @@ K = 1000;
 % --------------------------------------
 
 t_f = 200; % setting to 200 shows convergence clearly
-ts = [0:t_f];
+ts = [0:0.1:t_f];
 
 % solve the ode with the runge-kutta scheme, ode45
 [t1, N1_rk] = ode45(@(t, N) logModel(N, r, K), ts, N0_1);
@@ -54,7 +54,7 @@ title('Logistic Model, ode45 (Runge-Kutta) (N_0 = 100, 750, 1300)');
 % --------------------------------------
 
 iterations = length(ts); % how many times to run the scheme
-dt = 1; % setting as to be on the same scale as ode45
+dt = 0.1; % setting as to be on the same scale as ode45
 
 N1_eu = euler(iterations, N0_1, dt, @(N) logModel(N, r, K));
 N2_eu = euler(iterations, N0_2, dt, @(N) logModel(N, r, K));
