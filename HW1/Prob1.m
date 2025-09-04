@@ -56,6 +56,27 @@ xlabel('Domain, [-pi, pi] with h = 0.1');
 ylabel('Range, output of all differing functions');
 grid on;
 
+% for fun only: plot n = 2, 4, 6 approximations against exact
+
+y_taylor6 = y_taylor4 - (1/720)*(x.^6);
+
+figure(3); % cos(x), taylor_2, taylor_4, taylor_6
+plot(x, y_exact, 'g-'); hold on;
+plot(x, y_taylor2, 'b*'); hold on;
+plot(x, y_taylor4, 'c*'); hold on;
+plot(x, y_taylor6, 'y*'); hold on;
+
+legend( ...
+    'Exact', ...
+    'Taylor_2', ...
+    'Taylor_4', ...
+    'Taylor_6' ...
+    );
+title('y = cos(x) vs. Taylor Approximations of n = 2, 4, 6');
+xlabel('Domain, [-pi, pi] with h = 0.1');
+ylabel('Range, output of all differing functions');
+grid on;
+
 % --------------------------------------
 % plot part (c)
 % plot absolute errors e_2 and e_4
@@ -65,7 +86,7 @@ grid on;
 e_2 = abs(y_exact - y_taylor2);
 e_4 = abs(y_exact - y_taylor4);
 
-figure(3); % just error plotting
+figure(4); % just error plotting
 plot(x, e_2, 'ro', x, e_4, 'r.'); hold on;
 
 legend( ...
@@ -80,7 +101,7 @@ grid on;
 % some coherency for analyzing
 
 % plot ALL graphs
-figure(4); % init the figure
+figure(5); % init the figure
 plot(x, y_exact, 'g-'); hold on;
 plot(x, y_taylor2, 'b*'); hold on;
 plot(x, y_taylor4, 'c*'); hold on;
