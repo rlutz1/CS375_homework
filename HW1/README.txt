@@ -41,6 +41,8 @@ This script requires 3 other function files:
 
 Otherwise, the script runs in order from Part's A - C.
 
+A step size is intialized as `dt = 0.01` by default, but can be changed on run. All models are plotted on domain [0, 200] (t_f = 200) to show convergence.
+
 The figure values are as follows:
 
 ### Figure 1
@@ -58,3 +60,7 @@ The figure to illustrate the difference between Euler and Euler improved for a s
 ### Figure 4
 
 An optional figure to showcasehow Euler and euler improved compare against each other.
+
+### Figure 5
+
+Absolute error comparisons of ode45 VS Euler and ode45 VS Euler Improved. Included to be able to explore tangible differences between a first- and second-order scheme (compared with a highly accurate fourth-order). Shows absolute error for all initial values.
