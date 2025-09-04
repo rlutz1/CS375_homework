@@ -33,3 +33,6 @@ Absolute error for approximations n = 2, 4, 6. Added to illustrate that with mor
 All exact and n = 2, 4 approximations plotted, along with the approximations' absolute error.
 
 ## Prob2.m
+
+This script requires 3 other function files: 
++ log_model
