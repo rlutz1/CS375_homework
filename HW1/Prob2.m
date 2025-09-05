@@ -122,38 +122,72 @@ title("Logistic Model, Euler's and Euler's Improved Scheme (N_0 = 100, 750, 1300
 
 
 % some fun: error plotting between the methods
-% ode45 is mathematically known to be more accurate 
-% with error O(dt^4).
-% how does that compare to euler's (O(dt))
-% and euler's imrpoved (O(dt^2))? 
+% against the exact value
 
-e1_rkVSeu = abs(N1_rk - N1_eu);
-e1_rkVSeuImproved = abs(N1_rk - N1_euImproved);
+%{
+% init values of exact answer, N0 = 100
+N1_exact = zeros(iterations, 1); % init vector
+counter = 1;
 
-e2_rkVSeu = abs(N2_rk - N2_eu);
-e2_rkVSeuImproved = abs(N2_rk - N2_euImproved);
+for t = ts;
+    N1_exact(counter) = logModelExact(N0_1, t, r, K);
+    counter = counter + 1;
+end;
 
-e3_rkVSeu = abs(N3_rk - N3_eu);
-e3_rkVSeuImproved = abs(N3_rk - N3_euImproved);
+% init values of exact answer, N0 = 750
+N2_exact = zeros(iterations, 1); % init vector
+counter = 1;
 
-figure(5);
+for t = ts;
+    N2_exact(counter) = logModelExact(N0_2, t, r, K);
+    counter = counter + 1;
+end;
 
-plot(ts, e1_rkVSeu, 'g--', ...
-    ts, e1_rkVSeuImproved, 'y:', ...
-    ts, e2_rkVSeu, 'b--', ...
-    ts, e2_rkVSeuImproved, 'c:', ...
-    ts, e3_rkVSeu, 'm--', ...
-    ts, e3_rkVSeuImproved, 'r:' ...
+% init values of exact answer, N0 = 1300
+N3_exact = zeros(iterations, 1); % init vector
+counter = 1;
+
+for t = ts;
+    N3_exact(counter) = logModelExact(N0_3, t, r, K);
+    counter = counter + 1;
+end;
+
+e1_exactVSode45 = abs(N1_exact - N1_rk);
+e1_exactVSeu = abs(N1_exact - N1_eu);
+e1_exactVSeuImproved = abs(N1_exact - N1_euImproved);
+
+%e2_exactVSode45 = abs(N2_exact - N2_rk);
+%e2_exactVSeu = abs(N2_exact - N2_eu);
+%e2_exactVSeuImproved = abs(N2_exact - N2_euImproved);
+
+%e3_exactVSode45 = abs(N3_exact - N3_rk);
+%e3_exactVSeu = abs(N3_exact - N3_eu);
+%e3_exactVSeuImproved = abs(N3_exact - N3_euImproved);
+
+figure(6);
+
+%plot(ts, N1_exact, 'w--'); hold on;
+
+plot(ts, e1_exactVSode45, 'g:', ...
+    ts, e1_exactVSeu, 'r:', ...
+    ts, e1_exactVSeuImproved, 'y:' ...
     ); hold on;
 
-legend('RK VS EU, N_0 = 100', ...
-    'RK VS EUIMPROVED, N_0 = 100', ...
-    'RK VS EU, N_0 = 750', ...
-    'RK VS EUIMPROVED, N_0 = 750', ...
-    'RK VS EU, N_0 = 1300', ...
-    'RK VS EUIMPROVED, N_0 = 1300' ...
+%plot(ts, e2_exactVSode45, 'g--', ...
+%    ts, e2_exactVSeu, 'r:', ...
+%    ts, e2_exactVSeuImproved, 'y*' ...
+%    ); hold on;
+
+%plot(ts, e3_exactVSode45, 'g--', ...
+%    ts, e3_exactVSeu, 'r:', ...
+%    ts, e3_exactVSeuImproved, 'y*' ...
+%    ); hold on;
+
+legend('EXACT VS RK, N_0 = 100', ...
+    'EXACT VS EU, N_0 = 100', ...
+    'EXACT VS EUIMPROVED, N_0 = 100' ...
     );
 xlabel('Time (t)');
 ylabel('Change in N (N(t))');
-title("Error Comparisons between RK (ode45), eu and euImproved (N_0 = 100, 750, 1300)");
-
+title("Error Comparisons between RK (ode45), Euler, and Euler improved (N_0 = 100)");
+%}
