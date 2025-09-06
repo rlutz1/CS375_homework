@@ -59,8 +59,4 @@ The figure to illustrate the difference between Euler and Euler improved for a s
 
 ### Figure 4
 
-An optional figure to showcasehow Euler and euler improved compare against each other.
-
-### Figure 5
-
-Absolute error comparisons of ode45 VS Euler and ode45 VS Euler Improved. Included to be able to explore tangible differences between a first- and second-order scheme (compared with a highly accurate fourth-order). Shows absolute error for all initial values.
+An optional figure to showcase how ode45, Euler, and Euler improved compare against each other for N0 = 100.
