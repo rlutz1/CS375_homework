@@ -3,11 +3,13 @@
 % 9/15/2025
 % HW2
 
-% this is the function file for hw 2
-% below is a reusable function for the given in the problem:
-% y = x^2
-% dy = 2x dx
-function [y, dy] = function1 (x)
-    y = x .^ 2;
-    dy = x .* 2;
+% this is the function to find roots of
+% which is the distance function between
+% y = x^2 and point (1, 0)
+% f(x) = 4x^3 + 2x - 2
+% f'(x) = 12x^2 + 2
+
+function [y, dy] = function1(x)
+    y = (4 * (x .^ 3)) + (2 * x) - 2;
+    dy = (12 * (x .^ 2)) + 2;
 end
