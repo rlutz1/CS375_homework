@@ -18,11 +18,11 @@ y, dy
 % some initial values
 tolerance = 10 ^ (-4); % allowed to get approximate within 10^-4 as stated within problem.
 iterations = 20; % how many times to iterate
-x_0 = 1; % initial guess
+x_0 = 2; % initial guess
 
 for i = 1:iterations;
 
-    [y, dy] = function1(x_0); % get f(x) and f'(x)
+    [y, dy] = function2(x_0); % get f(x) and f'(x)
 
     x = x_0 - (y ./ dy); % apply newtons method
 
@@ -40,13 +40,13 @@ for i = 1:iterations;
 
 end;
 
-xexact = [-20:0.1:20];
+xexact = [-10:0.1:10];
 counter = 1;
 for x = xexact;
-    [y, dy] = function1(x);
+    [y, dy] = function2(x);
     yexact(counter) = y;
     counter = counter + 1;
 end;
 
 
-plot(xexact, yexact, "--c")
+plot(xexact, yexact, "--c", xapprox, yapprox, "oy")
