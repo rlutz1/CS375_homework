@@ -12,6 +12,7 @@ xold=2.5; %runaway
 xold=2.1; %approaches from right
 %xold=2.3; %approaches from left
 xold=0.8
+% for classic newton: m = 1 -> think about that
 m=3;  %to accelerate choose m=2
 
 formatSpec = '%d, %d, %d';
