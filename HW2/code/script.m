@@ -5,42 +5,49 @@
 
 % this is the main script file.
 
-% cleanup tasks
+% on-run cleanup tasks
 clc, clearvars, close all;
-
-% testing
-%{
-[y, dy] = function1([3, 4, 5]);
-y, dy
-%}
-
 
 % some initial values
 tolerance = 10 ^ (-4); % allowed to get approximate within 10^-4 as stated within problem.
 iterations = 20; % how many times to iterate
-x_0 = 2; % initial guess
+x_curr = 2; % initial guess
 
-for i = 1:iterations;
+% init vectors for speed
+% xapprox = zeros(iterations, 1);
+% yapprox = zeros(iterations, 1);
+success = false;
 
-    [y, dy] = function2(x_0); % get f(x) and f'(x)
+for n = 1:iterations;
 
-    x = x_0 - (y ./ dy); % apply newtons method
+    [y, dy] = function2(x_curr); % get f(x) and f'(x)
 
-    xapprox(i) = x_0;
-    yapprox(i) = y;
+    % hold values for plotting
+    xapprox(n) = x_curr;
+    yapprox(n) = y;
 
-    if abs(x - x_0) < tolerance; % found 0 within tolerance
-        disp("Approximate found successfully: x = " + x);
-        %xapprox(i) = x;
-        %yapprox(i) = y;
+    x_next = x_curr - (y ./ dy); % apply newtons method
+
+    if abs(x_next - x_curr) < tolerance; % found 0 within tolerance
+        success = true;
         break;
     end;
 
-    x_0 = x;
+    x_curr = x_next;
 
 end;
 
-xexact = [-10:0.1:10];
+% print success if we've found a zero within iterations and tolerance
+if success;
+    disp("Approximate found successfully: x = " + x_next);
+else;
+    disp("Approximate was NOT found successfully.");
+end;
+
+% plot exact values of function to find root of
+h = 0.1; startPt = -10; endPt =  10;
+xexact = [startPt:h:endPt];
+% yexact = zeros(size(xexact));
 counter = 1;
 for x = xexact;
     [y, dy] = function2(x);
