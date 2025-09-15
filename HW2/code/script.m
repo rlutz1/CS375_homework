@@ -11,11 +11,9 @@ clc, clearvars, close all;
 % some initial values
 tolerance = 10 ^ (-4); % allowed to get approximate within 10^-4 as stated within problem.
 iterations = 20; % how many times to iterate
-x_curr = 2; % initial guess
+x_curr = 0.5; % initial guess
 
-% init vectors for speed
-% xapprox = zeros(iterations, 1);
-% yapprox = zeros(iterations, 1);
+% flag for a successful approximation within these parameters
 success = false;
 
 for n = 1:iterations;
@@ -28,7 +26,8 @@ for n = 1:iterations;
 
     x_next = x_curr - (y ./ dy); % apply newtons method
 
-    if abs(x_next - x_curr) < tolerance; % found 0 within tolerance
+    % if abs(x_next - x_curr) < tolerance; % found 0 within tolerance
+    if abs(y) < tolerance;
         success = true;
         break;
     end;
