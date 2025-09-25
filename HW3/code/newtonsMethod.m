@@ -1,9 +1,9 @@
 % Roxanne Lutz
 % MATH375
-% 9/15/2025
-% HW2
+% 9/25/2025
+% HW3
 
-% this is the main script file.
+% this is newtons method for finding a root but condensed to a function.
 
 % on-run cleanup tasks
 clc, clearvars, close all;
