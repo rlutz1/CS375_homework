@@ -11,3 +11,4 @@ function [y, dy] = function_01(x)
     y = ((-1) * (x .^ 3)) + (x .^ 2) + x + 1;
     dy = ((-3) * (x .^2)) + (2 * x) + 1;
 end
+
