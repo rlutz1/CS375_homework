@@ -27,7 +27,7 @@ else;
 end;
 
 % get exact values of function to find root of
-h = 1; startPt = -500; endPt =  500; % initilization values
+h = 0.001; startPt = 0; endPt = 2; % initilization values
 xexact = [startPt:h:endPt]; % calucluate exact for these vals of x
 yexact = zeros(size(xexact)); % preallocate memory
 counter = 1;
