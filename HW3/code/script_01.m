@@ -7,7 +7,7 @@
 clc, clearvars, close all;
 
 % run newtons method with given method
-[xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(10 ^ (-4), 20, -1, @(x) function_01(x));
+[xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(10 ^ (-8), 20, -1, @(x) function_01(x));
 
 % print success if we've found a zero within iterations and tolerance
 if success;
