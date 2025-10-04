@@ -6,8 +6,13 @@
 % on-run cleanup tasks
 clc, clearvars, close all;
 
+tolerance = 10 ^ (-8); % tolerance specified by problem
+iterations = 20; % chosen arbitrarily to get approximation
+x_init = 2; % initial guess based on graph
+
 % run newtons method with given method
-[xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(10 ^ (-8), 20, -1, @(x) function_01(x));
+[xapprox, yapprox, iterationsNeeded, success] = ...
+  newtonsMethod(tolerance, iterations, x_init, @(x) function_01(x));
 
 % print success if we've found a zero within iterations and tolerance
 if success;
@@ -20,13 +25,13 @@ if success;
 else;
     disp( ...
         "Approximate root was NOT found within tolerance in " ...
-        + "20 iterations." ...
+        + iterations + " iterations." ...
         );
 end;
 
-% get exact values of function to find root of
-h = 0.1; startPt = -5; endPt =  5; % initilization values
-xexact = [startPt:h:endPt]; % calucluate exact for these vals of x
+% get exact values of function to plot against approximations
+h = 0.01; startPt = -1; endPt = 2; % initialization values
+xexact = [startPt:h:endPt]; % calculate exact for these vals of x
 yexact = zeros(size(xexact)); % preallocate memory
 counter = 1;
 
@@ -38,14 +43,15 @@ end;
 
 % plot the exact graph versus the approximation points
 figure(1);
-plot(xexact, yexact, "--c", xapprox, yapprox, "oy", LineWidth=1.5);
+plot(xexact, yexact, "--c", xapprox, yapprox, "oy", xapprox(1), yapprox(1), "og", LineWidth=1.5);
 hold on;
 
 legend( ...
     'Exact Values of f(x)', ...
-    'Approximations to the Root' ...
+    "Approximations to the Root with Newton's Method", ...
+    "Initial Guess, x = " + x_init ...
     );
-title('Derived f(x) vs Approximations to the Root r, where f(r) = 0');
-xlabel('Domain, [-5, 5] with h = 0.1');
-ylabel('Range, output of f(x) and Approximations of f(r) = 0');
+title("Exact f(x) vs Approximations to the Root using Newton's Method");
+xlabel("Domain, [" + startPt + ", " + endPt + "] with h = " + h);
+ylabel('Range, output of f(x) and Approximations');
 grid on;
