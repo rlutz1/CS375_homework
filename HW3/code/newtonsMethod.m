@@ -5,7 +5,7 @@
 
 % this is newtons method for finding a root but condensed to a function.
 
-function [xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(tolerance, iterations, x_start, function1)
+function [xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(tolerance, iterations, x_start, f)
 
 x_curr = x_start; % initial guess
 
@@ -16,7 +16,7 @@ iterationsNeeded = 0;
 
 for i = 1:iterations;
 
-    [y, dy] = function1(x_curr); % get f(x) and f'(x)
+    [y, dy] = f(x_curr); % get f(x) and f'(x)
 
     % hold values for plotting
     xapprox(i) = x_curr;

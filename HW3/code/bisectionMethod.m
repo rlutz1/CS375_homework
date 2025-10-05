@@ -5,7 +5,7 @@
 
 % this is the bisection method for 
 
-function [x_starts, y_starts, x_ends, y_ends, x_mids, y_mids, iterationsNeeded, success] = bisectionMethod(tolerance, iterations, x_start, x_end, function1)
+function [x_mids, y_mids, iterationsNeeded, success] = bisectionMethod(tolerance, iterations, x_start, x_end, function1)
 
 y_start = function1(x_start); % initial evaluation at x1
 success = false; % init success flag
