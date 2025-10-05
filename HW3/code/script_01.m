@@ -11,16 +11,16 @@ iterations = 20; % chosen arbitrarily to get approximation
 x_init = 2; % initial guess based on graph
 
 % run newtons method with given method
-[xapprox, yapprox, iterationsNeeded, success] = ...
+[x_approx, y_approx, iterations_needed, success] = ...
   newtonsMethod(tolerance, iterations, x_init, @(x) function_01(x));
 
 % print success if we've found a zero within iterations and tolerance
 if success;
     disp( ...
         "Approximate root found successfully in " ...
-        + iterationsNeeded ...
+        + iterations_needed ...
         + " iterations: x = " ...
-        + xapprox(end) ...
+        + x_approx(end) ...
         );
 else;
     disp( ...
@@ -31,19 +31,19 @@ end;
 
 % get exact values of function to plot against approximations
 h = 0.01; startPt = -1; endPt = 2; % initialization values
-xexact = [startPt:h:endPt]; % calculate exact for these vals of x
-yexact = zeros(size(xexact)); % preallocate memory
+x_exact = [startPt:h:endPt]; % calculate exact for these vals of x
+y_exact = zeros(size(x_exact)); % preallocate memory
 counter = 1;
 
-for x = xexact;
+for x = x_exact;
     [y, dy] = function_01(x);
-    yexact(counter) = y;
+    y_exact(counter) = y;
     counter = counter + 1;
 end;
 
 % plot the exact graph versus the approximation points
 figure(1);
-plot(xexact, yexact, "--c", xapprox, yapprox, "oy", xapprox(1), yapprox(1), "og", LineWidth=1.5);
+plot(x_exact, y_exact, "--c", x_approx, y_approx, "oy", x_approx(1), y_approx(1), "og", LineWidth=1.5);
 hold on;
 
 legend( ...
