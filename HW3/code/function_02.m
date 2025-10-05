@@ -11,5 +11,5 @@
 % bisection method does not need y' for approximations.
 
 function [y] = function_02(x)
-    y = ((2 .* x) ./ (1 + (x .^ 2))) - atan(x)
+    y = ((2 .* x) ./ (1 + (x .^ 2))) - atan(x);
 end

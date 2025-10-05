@@ -6,7 +6,12 @@
 % on-run cleanup tasks
 clc, clearvars, close all;
 
-[x_mids, y_mids, iterations_needed, success] = bisectionMethod(10 ^ (-4), 20, 0, 2, @(x) function_01(x));
+tolerance = 10 ^ (-8); % tolerance specified by problem
+iterations = 30; % chosen arbitrarily to get approximation
+x_start = 1; % lower bound on interval to find root in
+x_end = 2; % upper bound on interval to find root in 
+
+[x_mids, y_mids, iterations_needed, success] = bisectionMethod(tolerance, iterations, x_start, x_end, @(x) function_02(x));
 
 % print success if we've found a zero within iterations and tolerance
 if success;
@@ -21,38 +26,37 @@ if success;
 else;
     disp( ...
         "Approximate root was NOT found within tolerance in " ...
-        + "20 iterations." ...
+        + iterations + " iterations." ...
         );
 end;
 
 % get exact values of function to find root of
-h = 0.1; startPt = -5; endPt =  5; % initilization values
-xexact = [startPt:h:endPt]; % calucluate exact for these vals of x
-yexact = zeros(size(xexact)); % preallocate memory
+h = 0.01; start_pt = -3; end_pt =  3; % initilization values
+x_exact = [start_pt:h:end_pt]; % calucluate exact for these vals of x
+y_exact = zeros(size(x_exact)); % preallocate memory
 counter = 1;
 
-for x = xexact;
-    [y, dy] = function_01(x);
-    yexact(counter) = y;
+for x = x_exact;
+    y_exact(counter) =  function_02(x);
     counter = counter + 1;
 end;
 
 % plot the exact graph versus the approximation points
 figure(1);
-plot(xexact, yexact, "--c", ...
-    x_starts, y_starts, "og", ...
-    x_ends, y_ends, "ob", ...
-    x_mids, y_mids, "or", ...
+plot(x_exact, y_exact, "--c", ...
+    x_mids, y_mids, "oy", ...
+    x_start, function_02(x_start), "og", ...
+    x_end, function_02(x_end), "ob", ...
     LineWidth=1.5);
 hold on;
 
 legend( ...
     'Exact Values of f(x)', ...
-    'Beginning of Interval', ...
-    'End of Interval', ...
-    '(x, y) Approx Midpoints' ...
+    '(x, y) Approx Midpoints', ...
+    'Initial Starting Interval Value', ...
+    'Initial Ending Interval Value' ...
     );
-title('Derived f(x) vs Bisection Method Approximations to the Root r, where f(r) = 0');
-xlabel('Domain, [-5, 5] with h = 0.1');
-ylabel('Range, output of f(x) and Approximations of f(r) = 0');
+title('Derived f(x) vs Approximations to the Root using Bisection Method');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Range, output of f(x) and Approximations');
 grid on;
