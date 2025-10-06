@@ -6,9 +6,13 @@
 % on-run cleanup tasks
 clc, clearvars, close all;
 
+tolerance = 10 ^ (-8); % tolerance specified by problem
+iterations = 20; % chosen arbitrarily to get approximation
+x_init = 1; % initial guess specified by problem
+
 % run newtons method with given method
 % [xapprox, yapprox, iterationsNeeded, success] = newtonsMethod(10 ^ (-8), 50, 1.0, @(x) function_03(x));
-[x_starts, y_starts, x_ends, y_ends, x_mids, y_mids, iterationsNeeded, success] = bisectionMethod(10 ^ (-8), 50, 0.7, 0.8, @(x) function_03(x));
+[x_starts, y_starts, x_ends, y_ends, x_mids, y_mids, iterationsNeeded, success] = bisectionMethod(tolerance, iterations, 0.7, 0.8, @(x) function_03(x));
 
 % print success if we've found a zero within iterations and tolerance
 if success;

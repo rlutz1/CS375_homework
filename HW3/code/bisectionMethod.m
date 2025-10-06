@@ -14,7 +14,7 @@ iterations_needed = 0; % for easy printing
 for i = 1:iterations;
 
     x_mid = (x_end + x_start) ./ 2; % find mid x val between x1 and x2
-    y_mid = f(x_mid); % evaluate at mid point 
+    [y_mid, ~] = f(x_mid); % evaluate at mid point 
 
     % save mid values for return plotting
     x_mids(i) = x_mid;

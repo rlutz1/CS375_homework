@@ -37,7 +37,7 @@ y_exact = zeros(size(x_exact)); % preallocate memory
 counter = 1;
 
 for x = x_exact;
-    y_exact(counter) =  function_02(x);
+    [y_exact(counter), ~] = function_02(x);
     counter = counter + 1;
 end;
 
@@ -57,6 +57,44 @@ legend( ...
     'Initial Ending Interval Value' ...
     );
 title('Derived f(x) vs Approximations to the Root using Bisection Method');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Range, output of f(x) and Approximations');
+grid on;
+
+% lets compare the iterations of bisection to newton's briefly
+
+x_init = 1; % init value close to root
+
+% run newtons method with given method
+[x_approx, y_approx, iterations_needed, success] = ...
+    newtonsMethod(tolerance, iterations, x_init, @(x) function_02(x));
+
+% print success if we've found a zero within iterations and tolerance
+if success;
+    disp( ...
+        "Approximate root found successfully in " ...
+        + iterations_needed ...
+        + " iterations: x = " ...
+        + x_approx(end) ...
+        );
+else;
+    disp( ...
+        "Approximate root was NOT found within tolerance in " ...
+        + iterations + " iterations." ...
+        );
+end;
+
+% plot the exact graph versus the approximation points
+figure(2);
+plot(x_exact, y_exact, "--c", x_approx, y_approx, "oy", x_approx(1), y_approx(1), "og", LineWidth=1.5);
+hold on;
+
+legend( ...
+    'Exact Values of f(x)', ...
+    "Approximations to the Root with Newton's Method", ...
+    "Initial Guess, x = " + x_init ...
+    );
+title("Exact f(x) vs Approximations to the Root using Newton's Method");
 xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Range, output of f(x) and Approximations');
 grid on;
