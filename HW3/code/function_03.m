@@ -19,8 +19,7 @@ function [y, dy] = function_03(x)
     
     dy_sub = (lowdhigh - highdlow) ./ lowlow;
 
-
-    % now find y and dy, lord jesus in heaven
+    % now find y and dy
     y = (x .^ 3) - (2 .* x .* y_sub) + (y_sub .^ 7) + (4 .* (x .^ 3) .* y_sub) - 5;
     dy = (3 .* (x .^ 2)) - (2 .* y_sub) - (2 .* x .* dy_sub) + (7 .* (y_sub .^ 6) .* dy_sub) + (12 .* (x .^ 2) .* y_sub) + (4 .* (x .^ 3) .* dy_sub); 
 
