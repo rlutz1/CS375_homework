@@ -30,7 +30,7 @@ else;
 end;
 
 % get exact values of function to plot against approximations
-h = 0.01; start_pt = -1; end_pt = 2; % initialization values
+h = 0.001; start_pt = -1; end_pt = 2; % initialization values
 x_exact = [start_pt:h:end_pt]; % calculate exact for these vals of x
 y_exact = zeros(size(x_exact)); % preallocate memory
 counter = 1;

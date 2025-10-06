@@ -31,7 +31,7 @@ else;
 end;
 
 % get exact values of function to find root of
-h = 0.01; start_pt = -3; end_pt =  3; % initilization values
+h = 0.001; start_pt = -3; end_pt =  3; % initilization values
 x_exact = [start_pt:h:end_pt]; % calucluate exact for these vals of x
 y_exact = zeros(size(x_exact)); % preallocate memory
 counter = 1;
