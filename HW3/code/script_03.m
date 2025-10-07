@@ -24,7 +24,7 @@ if success;
         );
 else;
     disp( ...
-        "Approximate root was NOT found within tolerance in " ...
+        "NEWTON: Approximate root was NOT found within tolerance in " ...
         + iterations + " iterations." ...
         );
 end;
@@ -106,7 +106,7 @@ xlim([start_pt_less, end_pt_less]);
 
 grid on;
 
-% extra: try with bisection method from 0 -> 2
+% extra: try with bisection method from 0.5 -> 1
 
 x_start = 0.5; % lower bound on interval to find root in
 x_end = 1; % upper bound on interval to find root in 
@@ -126,7 +126,7 @@ if success;
 
 else;
     disp( ...
-        "Approximate root was NOT found within tolerance in " ...
+        "BISECTION: Approximate root was NOT found within tolerance in " ...
         + iterations + " iterations." ...
         );
 end;

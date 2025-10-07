@@ -5,7 +5,13 @@
 
 % coded version of function from computer problem #3
 % see handwritten work in pdf to see how we
-% got this function
+% got this function.
+% but: f(x) = 
+%   x^3 
+%   - 2x((4 - tan(x)) / (sin(x) + 3x^2)) 
+%   + ((4 - tan(x)) / (sin(x) + 3x^2))^7 
+%   + 4x^3((4 - tan(x)) / (sin(x) + 3x^2)) 
+%   - 5
 
 function [y, dy] = function_03(x)
 
@@ -20,7 +26,7 @@ function [y, dy] = function_03(x)
     dy_sub = (lowdhigh - highdlow) ./ lowlow;
 
     % now find y and dy
-    y = (x .^ 3) - (2 .* x .* y_sub) + (y_sub .^ 7) + (4 .* (x .^ 3) .* y_sub) - 5;
-    dy = (3 .* (x .^ 2)) - (2 .* y_sub) - (2 .* x .* dy_sub) + (7 .* (y_sub .^ 6) .* dy_sub) + (12 .* (x .^ 2) .* y_sub) + (4 .* (x .^ 3) .* dy_sub); 
+    y = (x .^ 3) - (2 .* x .* y_sub) + (y_sub .^ 7) + (4 .* (x .^ 3) .* y_sub) - 5; %f(x)
+    dy = (3 .* (x .^ 2)) - (2 .* y_sub) - (2 .* x .* dy_sub) + (7 .* (y_sub .^ 6) .* dy_sub) + (12 .* (x .^ 2) .* y_sub) + (4 .* (x .^ 3) .* dy_sub); %f'(x) 
 
 end
