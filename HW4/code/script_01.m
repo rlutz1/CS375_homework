@@ -182,6 +182,21 @@ end;
 
 % ------------------------
 
+% % TESTING-----------------
+% n = 60;
+% x_G60 = chebyshev_nodes(n + 1, start_pt, end_pt);
+% y_G60 = runge_function(x_G60); % evaluate data points
+% 
+% a_coeff = Coef(n, x_G60, y_G60); % get coefficients
+% 
+% % evaluate the interpolating polynomial at a finer mesh
+% x_G60_Interp = [start_pt:h:end_pt];
+% for i = 1:length(x_G60_Interp);
+%     y_G60_Interp(i) = Eval(n, x_G60, a_coeff, x_G60_Interp(i));
+% end;
+% 
+% % ------------------------
+
 figure(5);
 plot( ...
     x_exact, y_exact, "-c", ...
