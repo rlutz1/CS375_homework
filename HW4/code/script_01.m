@@ -34,7 +34,7 @@ grid on;
 % -----------------------------------------------------
 
 n = 10; % P10, 11 equispaced nodes (n + 1 nodes)
-h_equispaced = (end_pt - start_pt) / n; % get number of nodes
+h_equispaced = (end_pt - start_pt) / n; % get equispace
 x_P10 = [start_pt:h_equispaced:end_pt];
 y_P10 = runge_function(x_P10); % evaluate data points
 
@@ -47,7 +47,7 @@ for i = 1:length(x_P10_Interp);
 end;
 
 % plot interpolation against exact and data points
-figure('Name', 'Interpolation of P10');
+figure('Name', "Interpolation of P" + n);
 plot( ...
     x_exact, y_exact, "--c", ...
     x_P10, y_P10, 'mo', ...
@@ -61,13 +61,13 @@ legend( ...
     "Data Points", ...
     "Interpolation" ...
     );
-title('Runge Exact VS P10 Interpolation');
+title("Runge Exact VS P" + n + " Interpolation");
 xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Output of Runge Function and Interpolation');
 grid on;
 
 % quick error plot
-figure('Name', 'Error Plotting of P10');
+figure('Name', "Error Plotting of P" + n);
 plot( ...
     x_exact, abs(y_exact - y_P10_Interp), "-r", ...
     LineWidth=1.5 ...
@@ -77,7 +77,7 @@ hold on;
 legend( ...
     'Absolute Error' ...
     );
-title('Absolute Error of Runge Function and P10');
+title("Absolute Error of Runge Function and P" + n);
 xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Absolute Error');
 grid on;
@@ -87,6 +87,7 @@ grid on;
 % + construct and plot G10 on [-5, 5] using Chebyshev nodes
 % -----------------------------------------------------
 
+n = 10;
 x_G10 = chebyshev_nodes(n + 1, start_pt, end_pt)
 y_G10 = runge_function(x_G10); % evaluate data points
 
@@ -182,7 +183,7 @@ grid on;
 % + fix window to x = [-5, 5], y = [-0.5, 2]
 % -----------------------------------------------------
 
-% --------------------
+% n = 20
 n = 20;
 x_G20 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G20 = runge_function(x_G20); % evaluate data points
@@ -195,8 +196,7 @@ for i = 1:length(x_G20_Interp);
     y_G20_Interp(i) = Eval(n, x_G20, a_coeff, x_G20_Interp(i));
 end;
 
-
-% -----------------
+% n = 40
 n = 40;
 x_G40 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G40 = runge_function(x_G40); % evaluate data points
@@ -209,9 +209,7 @@ for i = 1:length(x_G40_Interp);
     y_G40_Interp(i) = Eval(n, x_G40, a_coeff, x_G40_Interp(i));
 end;
 
-% ------------------------
-
-% -----------------
+% n = 60
 n = 60;
 x_G60 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G60 = runge_function(x_G60); % evaluate data points
@@ -224,29 +222,13 @@ for i = 1:length(x_G60_Interp);
     y_G60_Interp(i) = Eval(n, x_G60, a_coeff, x_G60_Interp(i));
 end;
 
-% ------------------------
-
-% % TESTING-----------------
-% n = 60;
-% x_G60 = chebyshev_nodes(n + 1, start_pt, end_pt);
-% y_G60 = runge_function(x_G60); % evaluate data points
-% 
-% a_coeff = Coef(n, x_G60, y_G60); % get coefficients
-% 
-% % evaluate the interpolating polynomial at a finer mesh
-% x_G60_Interp = [start_pt:h:end_pt];
-% for i = 1:length(x_G60_Interp);
-%     y_G60_Interp(i) = Eval(n, x_G60, a_coeff, x_G60_Interp(i));
-% end;
-% 
-% % ------------------------
-
+% plot all together
 figure('Name', 'Interpolation of G20, G40, G60');
 plot( ...
     x_exact, y_exact, "-c", ...
     x_G20_Interp, y_G20_Interp, "--r", ...
     x_G40_Interp, y_G40_Interp, "--y", ...
-    x_G60_Interp, y_G60_Interp, "--g", ...
+    x_G60_Interp, y_G60_Interp, "-g", ...
     LineWidth=1.5 ...
     );
 hold on;
@@ -262,4 +244,24 @@ xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 xlim([-5, 5]); % limit specified
 ylabel('Output of Runge Function and Interpolation');
 ylim([-0.5, 2]); % limit specified
+grid on;
+
+% quick error plot
+figure('Name', 'Error Plotting of G20, G40, and G60');
+plot( ...
+    x_exact, abs(y_exact - y_G20_Interp), "-y", ...
+    x_exact, abs(y_exact - y_G40_Interp), "-g", ...
+    x_exact, abs(y_exact - y_G60_Interp), "-r", ...
+    LineWidth=1 ...
+    );
+hold on;
+
+legend( ...
+    'Absolute Error for G20', ...
+    'Absolute Error for G40', ...
+    'Absolute Error for G60' ...
+    );
+title('Absolute Error of Runge Function for G20, G40, and G60');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Absolute Error');
 grid on;

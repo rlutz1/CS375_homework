@@ -2,7 +2,7 @@
 %
 clear All all
 %n pn(x) , which means that we have (n+1) nodes
-n=10;
+n=40;
 a=-5;
 b=5;
 h=(b-a)/(n);
