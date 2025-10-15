@@ -6,21 +6,14 @@
 % script run cleanup tasks
 clc, clearvars, close all;
 
-% preliminary: get f(x) plotted with more than 11 points
+% preliminary: get f(x) plotted with a fine mesh
 start_pt = -5; end_pt = 5;
 h = 0.001; % 10,000 points plotted
 x_exact = [start_pt:h:end_pt];
 y_exact = runge_function(x_exact);
 
-% don't actually need to do this, vectors dummy, erase for submit
-% i = 1;
-% for x = x_exact;
-%     y_exact(i) = runge_function(x);
-%     i = i + 1;
-% end;
-
 % plot the exact graph only, mainly for ensuring code is correct
-figure(1);
+figure('Name', 'Exact Runge');
 plot( ...
     x_exact, y_exact, "--c", ...
     LineWidth=1.5 ...
@@ -40,7 +33,7 @@ grid on;
 % + construct and plot P10 on [-5, 5] using equispaced pts
 % -----------------------------------------------------
 
-n = 10; % P_10, 11 equispaced nodes (n + 1 nodes)
+n = 10; % P10, 11 equispaced nodes (n + 1 nodes)
 h_equispaced = (end_pt - start_pt) / n; % get number of nodes
 x_P10 = [start_pt:h_equispaced:end_pt];
 y_P10 = runge_function(x_P10); % evaluate data points
@@ -53,7 +46,8 @@ for i = 1:length(x_P10_Interp);
     y_P10_Interp(i) = Eval(n, x_P10, a_coeff, x_P10_Interp(i));
 end;
 
-figure(2);
+% plot interpolation against exact and data points
+figure('Name', 'Interpolation of P10');
 plot( ...
     x_exact, y_exact, "--c", ...
     x_P10, y_P10, 'mo', ...
@@ -72,6 +66,22 @@ xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Output of Runge Function and Interpolation');
 grid on;
 
+% quick error plot
+figure('Name', 'Error Plotting of P10');
+plot( ...
+    x_exact, abs(y_exact - y_P10_Interp), "-r", ...
+    LineWidth=1.5 ...
+    );
+hold on;
+
+legend( ...
+    'Absolute Error' ...
+    );
+title('Absolute Error of Runge Function and P10');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Absolute Error');
+grid on;
+
 % -----------------------------------------------------
 % PART B
 % + construct and plot G10 on [-5, 5] using Chebyshev nodes
@@ -88,7 +98,7 @@ for i = 1:length(x_G10_Interp);
     y_G10_Interp(i) = Eval(n, x_G10, a_coeff, x_G10_Interp(i));
 end;
 
-figure(3);
+figure('Name', 'Interpolation of G10');
 plot( ...
     x_exact, y_exact, "--c", ...
     x_G10, y_G10, 'mo', ...
@@ -107,13 +117,29 @@ xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Output of Runge Function and Interpolation');
 grid on;
 
+% quick error plot
+figure('Name', 'Error Plotting of G10');
+plot( ...
+    x_exact, abs(y_exact - y_G10_Interp), "-r", ...
+    LineWidth=1.5 ...
+    );
+hold on;
+
+legend( ...
+    'Absolute Error' ...
+    );
+title('Absolute Error of Runge Function and G10');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Absolute Error');
+grid on;
+
 
 % -----------------------------------------------------
 % PART C
 % + Plot all 3 (exact, P10, G10) together
 % -----------------------------------------------------
 
-figure(4);
+figure('Name', 'Interpolation of Both P10 and G10');
 plot( ...
     x_exact, y_exact, "--c", ...
     x_P10_Interp, y_P10_Interp, "--y", ...
@@ -130,6 +156,24 @@ legend( ...
 title('Runge Exact VS P10, G10 Interpolation');
 xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
 ylabel('Output of Runge Function and Interpolation');
+grid on;
+
+% quick error plot
+figure('Name', 'Error Plotting of P10 and G10');
+plot( ...
+    x_exact, abs(y_exact - y_P10_Interp), "-r", ...
+    x_exact, abs(y_exact - y_G10_Interp), "-y", ...
+    LineWidth=1 ...
+    );
+hold on;
+
+legend( ...
+    'Absolute Error for P10', ...
+    'Absolute Error for G10' ...
+    );
+title('Absolute Error of Runge Function for P10 and G10');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "] with h = " + h);
+ylabel('Absolute Error');
 grid on;
 
 % -----------------------------------------------------
@@ -197,7 +241,7 @@ end;
 % 
 % % ------------------------
 
-figure(5);
+figure('Name', 'Interpolation of G20, G40, G60');
 plot( ...
     x_exact, y_exact, "-c", ...
     x_G20_Interp, y_G20_Interp, "--r", ...
