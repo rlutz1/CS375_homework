@@ -88,7 +88,7 @@ grid on;
 % -----------------------------------------------------
 
 n = 10;
-x_G10 = chebyshev_nodes(n + 1, start_pt, end_pt)
+x_G10 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G10 = runge_function(x_G10); % evaluate data points
 
 a_coeff = Coef(n, x_G10, y_G10); % get coefficients
