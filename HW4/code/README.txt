@@ -14,11 +14,11 @@ The exact Runge function plotted by itself. Purely for verification of the corre
 
 #### Figure 2 & 3
 
-2 plots the P10 polynomial and data points over the exact Runge function. 3 plots the absolute error between the exact and P10 interplolation at a fine mesh.
+2 plots the P10 polynomial and data points over the exact Runge function. 3 plots the absolute error between the exact and P10 interpolation at a fine mesh.
 
 #### Figure 4 & 5
 
-2 plots the G10 polynomial and data points over the exact Runge function. 3 plots the absolute error between the exact and G10 interplolation at a fine mesh.
+2 plots the G10 polynomial and data points over the exact Runge function. 3 plots the absolute error between the exact and G10 interpolation at a fine mesh.
 
 #### Figure 6 & 7
 
@@ -36,7 +36,7 @@ A file to help methodize the Runge function coding. Simply, the coded exact Rung
 
 ### chebyshev_nodes.m
 
-A file to help provide a reusabality function for generating a specified number of Chebyshev nodes for a generic interval [a, b].
+A file to help provide a reusability function for generating a specified number of Chebyshev nodes for a generic interval [a, b].
 
 ### Coef.m and Eval.m
 
