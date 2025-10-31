@@ -29,6 +29,11 @@ ylabel('Output of Runge Function');
 grid on;
 
 % -------------------------------------
+% PART A
+%
+% plot splines with 21, 41, 81 knots
+% in same figure
+% -------------------------------------
 
 % SPLINE WITH 21 KNOTS
 % number of equally spaced nodes
@@ -72,22 +77,20 @@ S_81 = spline_deg_1(t_knots, y_table_values, x_finer3);
 
 % -------------------------------------
 
-
-
-
 % plot the splines
 figure('Name', 'S_21, S_41, S_81');
 plot( ...
-    x_finer1, S_21, '--' , ...
-    x_finer2, S_41, '-' , ...
-    x_finer3, S_81, 'o-'  ...
+    x_finer1, S_21, '--r' , ...
+    x_finer2, S_41, '--y' , ...
+    x_finer3, S_81, '--g'  ...
     ... % t_knots, y_table_values, 'rx' ...
     )
 legend('S21', 'S41', 'S81')
-title(['Degree 1 Spline Approximation, ', 'n = ', num2str(n)])
+title(['Degree 1 Spline Approximation, ', 'n = 21, 41, 81'])
 
+% -------------------------------------
 
-
+% gettinng and plotting error for analysis
 y_exact1 = runge_function(x_finer1);
 error1 = abs(y_exact1 - S_21);
 
