@@ -112,3 +112,50 @@ legend( ...
     "Error of S81" ...
     );
 title(['Degree 1 Spline Error, ','n = 21, 41, 81'])
+
+% -------------------------------------
+% PART B
+%
+% construct G20 with chebyshev
+% construct spline S~21 with these knots
+% plot!
+% -------------------------------------
+
+% construct G20
+n = 20;
+x_G20 = chebyshev_nodes(n + 1, start_pt, end_pt);
+y_G20 = runge_function(x_G20); % evaluate data points
+
+a_coeff = Coef(n, x_G20, y_G20); % get coefficients
+
+% evaluate the interpolating polynomial at a finer mesh
+x_G20_Interp = [start_pt:h:end_pt];
+for i = 1:length(x_G20_Interp);
+    y_G20_Interp(i) = Eval(n, x_G20, a_coeff, x_G20_Interp(i));
+end;
+
+% -------------------------------------
+
+% SPLINE WITH 21 KNOTS
+% number of equally spaced nodes
+% n = 21;  %s_21
+%spacing
+% h = (end_pt - start_pt) / (n - 1);
+t_knots = x_G20; % knot vector, chebyshev
+y_table_values = runge_function(t_knots); % fill the table
+
+x_finer1 = [start_pt:0.1:end_pt]; %choose a finer grid to plot points in between knots
+%call function, X=evaluation of an interval or point
+S_21 = spline_deg_1(t_knots, y_table_values, x_finer1);
+
+% -------------------------------------
+
+% plot the spline and G20
+figure('Name', 'S_21, S_20');
+plot( ...
+    x_finer1, S_21, '--c' , ...
+    x_G20_Interp, y_G20_Interp, '--y' ...
+    ... % t_knots, y_table_values, 'rx' ...
+    )
+legend('S21', 'G20')
+title(['Degree 1 Spline and Polynomial Chebyshev Approximation, '])
