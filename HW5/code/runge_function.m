@@ -1,7 +1,7 @@
 % Roxanne Lutz
 % MATH375
-% 10/13/2025
-% HW4
+% 10/31/2025
+% HW5
 
 % function to hold the coding of the actual
 % runge function: 1/(1+x^2)
