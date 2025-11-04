@@ -44,7 +44,7 @@ grid on;
 % SPLINE WITH 21 KNOTS
 
 % number of equally spaced nodes
-n = 21;  %s_21
+n = 21;  %S21
 h = (end_pt - start_pt) / (n - 1); % spacing
 t_knots_21 = [start_pt:h:end_pt]; % knot vector
 y_table_values_21 = runge_function(t_knots_21); % fill the table
@@ -58,7 +58,7 @@ S_21 = spline_deg_1(t_knots_21, y_table_values_21, x_finer_21);
 % SPLINE WITH 41 KNOTS
 
 % number of equally spaced nodes
-n = 41;  %s_41
+n = 41;  %S41
 h = (end_pt - start_pt) / (n - 1); % spacing
 t_knots_41 = [start_pt:h:end_pt]; % knot vector
 y_table_values_41 = runge_function(t_knots_41); % fill the table
@@ -72,7 +72,7 @@ S_41 = spline_deg_1(t_knots_41, y_table_values_41, x_finer_41);
 % SPLINE WITH 81 KNOTS
 
 % number of equally spaced nodes
-n = 81;  %s_81
+n = 81;  %S81
 h = (end_pt - start_pt) / (n - 1); % spacing
 t_knots_81 = [start_pt:h:end_pt]; % knot vector
 y_table_values_81 = runge_function(t_knots_81); % fill the table
@@ -151,8 +151,6 @@ grid on;
 % plot!
 % -------------------------------------
 
-% construct G20
-
 % 2 notes
 
 % (1) take n to cheby breaking point (~60 nodes), notice that spline does not
@@ -167,53 +165,60 @@ grid on;
 % and finally--break the interpolation with n = 60 to show than spline does
 % just fine where chebyshev fails.
 
-n = 20;
-% n = 40;
-% n = 60;
-h = 0.01;
-x_G20 = chebyshev_nodes(n + 1, start_pt, end_pt);
+% SETUP NODE/KNOT VALUES
+
+n_interp = 20; % G20
+% n_interp = 40; % for toying: G40
+% n_interp = 60; % for toying: G60
+% n_interp = 80; % for toying: G80
+
+n_spline = n_interp + 1; % S(n + 1)
+
+% -------------------------------------
+
+% CONSTRUCT G20
+
+h = 0.01; % arbitrarily chosen mesh
+x_G20 = chebyshev_nodes(n_interp + 1, start_pt, end_pt);
 y_G20 = runge_function(x_G20); % evaluate data points
 
-a_coeff = Coef(n, x_G20, y_G20); % get coefficients
+a_coeff = Coef(n_interp, x_G20, y_G20); % get coefficients
 
 % evaluate the interpolating polynomial at a finer mesh
 x_G20_Interp = [start_pt:h:end_pt];
 for i = 1:length(x_G20_Interp);
-    y_G20_Interp(i) = Eval(n, x_G20, a_coeff, x_G20_Interp(i));
+    y_G20_Interp(i) = Eval(n_interp, x_G20, a_coeff, x_G20_Interp(i));
 end;
 
 % -------------------------------------
 
-% SPLINE WITH 21 KNOTS
+% SPLINE WITH 21 CHEBY KNOTS
 
-% number of equally spaced nodes
-n = 21;  %s_21
-% n = 41
-% n = 61;
-%spacing
-h = (end_pt - start_pt) / (n - 1);
-t_knots_cheby = flip(x_G20, 2); % knot vector, chebyshev
+h = (end_pt - start_pt) / (n_spline - 1); % spacing
+t_knots_cheby = flip(x_G20, 2); % knot vector, chebyshev (func returns descending, reverse return)
 y_table_values_cheby = runge_function(t_knots_cheby); % fill the table
 
 x_finer_21 = [start_pt:(h / 5):end_pt]; %choose a finer grid to plot points in between knots
-%call function, X=evaluation of an interval or point
+% call function, X=evaluation of an interval or point
 S_21_cheby = spline_deg_1(t_knots_cheby, y_table_values_cheby, x_finer_21);
 
 % -------------------------------------
 
 % plot the spline and G20
-figure('Name', 'S_21, G_20');
+figure('Name', "S_" + n_spline + ", G_" + n_interp);
 plot( ...
-    x_finer_21, S_21_cheby, '--c' , ...
+    x_finer_21, S_21_cheby, '--g' , ...
     x_G20_Interp, y_G20_Interp, '--y', ...
     t_knots_cheby, y_table_values_cheby, '*r' ...
     )
-legend('S21', 'G20');
+legend("S" + n_spline, "G" + n_interp, "Spline Table Values");
 title('Degree 1 Spline and Polynomial Chebyshev Approximation')
 xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
 ylabel('Approximate Runge Function');
-% ylim([-0.5, 2]); % limit specified
+ylim([0, 1]); % limit specified as needed
 grid on;
+
+% -------------------------------------
 
 % error plotting
 
@@ -230,11 +235,11 @@ plot( ...
     );
 hold on;
 legend( ...
-    "Error of S21 with Cheby", ...
-    "Error of G20" ...
+    "Error of S" + n_spline + " with Cheby", ...
+    "Error of G" + n_interp  + " with Cheby"...
     );
-title('Degree 1 Spline VS G20 Error');
+title('Degree 1 Spline VS Poly Interpolation Error');
 xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
 ylabel('|Exact - Approximate|');
-% ylim([-0.5, 2]); % limit specified
+% ylim([0, 0.02]); % limit specified as needed
 grid on;
