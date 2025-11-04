@@ -151,11 +151,25 @@ grid on;
 % start_pt = -1
 % end_pt = 2
 
-disp("LAST!!!")
-
 % construct G20
 
+% 2 notes
+
+% (1) take n to cheby breaking point (~60 nodes), notice that spline does not
+% wildly oscillate
+
+% (2) spline is least accurate around the middle, while increasing accuracy
+% around the edges--this makes sense because the step h is smallest around
+% edges in chebyshev nodes and largest in middle--this is a big reason it
+% can somewhat fix runge phenom.
+
+% todo: in write up, take pics of decreasing error of more n
+% and finally--break the interpolation with n = 60 to show than spline does
+% just fine where chebyshev fails.
+
 n = 20;
+% n = 40;
+% n = 60;
 h = 0.01;
 x_G20 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G20 = runge_function(x_G20); % evaluate data points
@@ -174,6 +188,8 @@ end;
 
 % number of equally spaced nodes
 n = 21;  %s_21
+% n = 41
+% n = 61;
 %spacing
 h = (end_pt - start_pt) / (n - 1);
 t_knots_cheby = flip(x_G20, 2); % knot vector, chebyshev
@@ -191,10 +207,13 @@ plot( ...
     x_finer_21, S_21_cheby, '--c' , ...
     x_G20_Interp, y_G20_Interp, '--y', ...
     t_knots_cheby, y_table_values_cheby, '*r' ...
-    ... % t_knots, y_table_values, 'rx' ...
     )
-legend('S21', 'G20')
-title(['Degree 1 Spline and Polynomial Chebyshev Approximation, '])
+legend('S21', 'G20');
+title('Degree 1 Spline and Polynomial Chebyshev Approximation')
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('Approximate Runge Function');
+% ylim([-0.5, 2]); % limit specified
+grid on;
 
 % error plotting
 
@@ -217,4 +236,5 @@ legend( ...
 title('Degree 1 Spline VS G20 Error');
 xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
 ylabel('|Exact - Approximate|');
+% ylim([-0.5, 2]); % limit specified
 grid on;
