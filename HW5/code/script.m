@@ -151,6 +151,8 @@ grid on;
 % start_pt = -1
 % end_pt = 2
 
+disp("LAST!!!")
+
 % construct G20
 
 n = 20;
@@ -174,7 +176,7 @@ end;
 n = 21;  %s_21
 %spacing
 h = (end_pt - start_pt) / (n - 1);
-t_knots_cheby = x_G20; % knot vector, chebyshev
+t_knots_cheby = flip(x_G20, 2); % knot vector, chebyshev
 y_table_values_cheby = runge_function(t_knots_cheby); % fill the table
 
 x_finer_21 = [start_pt:(h / 5):end_pt]; %choose a finer grid to plot points in between knots

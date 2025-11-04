@@ -16,7 +16,8 @@ for j = 1:length(X) %----------------- added part for taking [a,b]
     x = X(j);
     %-------------------------------------original part of pseudo-code
     for i = n-1:-1:1
-        if (x - t(i)) >= 0
+        if (x - t(i)) >= 0 % this assumption...
+            i
             break;
         end
     end
