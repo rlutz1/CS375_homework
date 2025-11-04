@@ -195,3 +195,26 @@ plot( ...
     )
 legend('S21', 'G20')
 title(['Degree 1 Spline and Polynomial Chebyshev Approximation, '])
+
+% error plotting
+
+y_exact_cheby_interp = runge_function(x_G20_Interp);
+error_cheby_interp = abs(y_exact_cheby_interp - y_G20_Interp);
+
+y_exact_cheby_spline = runge_function(x_finer_21);
+error_cheby_spline = abs(y_exact_cheby_spline - S_21_cheby);
+
+figure('Name', 'Absolute Error of Spline/Interp Approximations'); %plotting the error
+plot( ...
+    x_finer_21, error_cheby_spline, '--y', ...
+    x_G20_Interp, error_cheby_interp, '--r' ...
+    );
+hold on;
+legend( ...
+    "Error of S21 with Cheby", ...
+    "Error of G20" ...
+    );
+title('Degree 1 Spline VS G20 Error');
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('|Exact - Approximate|');
+grid on;
