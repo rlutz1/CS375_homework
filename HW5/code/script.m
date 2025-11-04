@@ -87,6 +87,7 @@ S_81 = spline_deg_1(t_knots_81, y_table_values_81, x_finer_81);
 % -------------------------------------
 
 % plot the splines
+
 figure('Name', 'S_21, S_41, S_81');
 plot( ...
     x_finer_21, S_21, '--r' , ...
@@ -111,6 +112,7 @@ grid on;
 % -------------------------------------
 
 % getting and plotting error for analysis
+
 y_exact_21 = runge_function(x_finer_21);
 error_21 = abs(y_exact_21 - S_21);
 
@@ -140,13 +142,19 @@ grid on;
 % -------------------------------------
 % PART B
 %
-% construct G20 with chebyshev
-% construct spline S~21 with these knots
+% construct G_20 with chebyshev
+% construct spline S_21 with these knots
 % plot!
 % -------------------------------------
 
+% playing 
+% start_pt = -1
+% end_pt = 2
+
 % construct G20
+
 n = 20;
+h = 0.01;
 x_G20 = chebyshev_nodes(n + 1, start_pt, end_pt);
 y_G20 = runge_function(x_G20); % evaluate data points
 
@@ -161,24 +169,26 @@ end;
 % -------------------------------------
 
 % SPLINE WITH 21 KNOTS
-% number of equally spaced nodes
-% n = 21;  %s_21
-%spacing
-% h = (end_pt - start_pt) / (n - 1);
-t_knots = x_G20; % knot vector, chebyshev
-y_table_values_21 = runge_function(t_knots); % fill the table
 
-x_finer_21 = [start_pt:0.1:end_pt]; %choose a finer grid to plot points in between knots
+% number of equally spaced nodes
+n = 21;  %s_21
+%spacing
+h = (end_pt - start_pt) / (n - 1);
+t_knots_cheby = x_G20; % knot vector, chebyshev
+y_table_values_cheby = runge_function(t_knots_cheby); % fill the table
+
+x_finer_21 = [start_pt:(h / 5):end_pt]; %choose a finer grid to plot points in between knots
 %call function, X=evaluation of an interval or point
-S_21 = spline_deg_1(t_knots, y_table_values_21, x_finer_21);
+S_21_cheby = spline_deg_1(t_knots_cheby, y_table_values_cheby, x_finer_21);
 
 % -------------------------------------
 
 % plot the spline and G20
-figure('Name', 'S_21, S_20');
+figure('Name', 'S_21, G_20');
 plot( ...
-    x_finer_21, S_21, '--c' , ...
-    x_G20_Interp, y_G20_Interp, '--y' ...
+    x_finer_21, S_21_cheby, '--c' , ...
+    x_G20_Interp, y_G20_Interp, '--y', ...
+    t_knots_cheby, y_table_values_cheby, '*r' ...
     ... % t_knots, y_table_values, 'rx' ...
     )
 legend('S21', 'G20')
