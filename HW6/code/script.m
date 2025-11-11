@@ -45,4 +45,37 @@ h_equispaced = (end_pt - start_pt) / n; % get equispace
 x_cubic_spline = [start_pt:h_equispaced:end_pt];
 y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 
+% I believe this is yielding a + bx + cx2 + dx3
 [a, b, c, d] = cubic_spline(x_cubic_spline, y_cubic_spline);
+
+x_cubic_interp = [start_pt:h:end_pt];
+% basically we need to go through each of these points
+% figure out which interval theyre in
+int = -1;
+% find the correct interval x is within
+for j = 1:length(x_cubic_interp);
+    x = x_cubic_interp(j);
+    for i = n-1:-1:1
+        if (x - x_cubic_spline(i)) >= 0;
+            int = i;
+            break;
+        end
+    end
+    y_cubic_interp(j) = a(int) + (b(int) .* x) + (c(int) .* (x .^ 2)) + (d(int) .* (x .^ 3));
+end
+
+% plot the spline and G20
+figure('Name', "S" + (n + 1) + ", Exact tanh(x)");
+plot( ...
+    x_exact, y_exact, '--c' , ...
+    x_cubic_interp, y_cubic_interp, '--y', ...
+    'LineWidth', 1.5 ...
+    )
+legend("Exact tanh(x) Values", "S" + (n + 1));
+title('S10 VS Exact tanh(x)')
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('Function Output');
+% ylim([0, 1]); % limit specified as needed
+grid on;
+
+% and grab the correct coefficients
