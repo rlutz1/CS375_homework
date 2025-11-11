@@ -56,12 +56,12 @@ int = -1;
 for j = 1:length(x_cubic_interp);
     x = x_cubic_interp(j);
     for i = n-1:-1:1
-        if (x - x_cubic_spline(i)) >= 0;
+        if (x - x_cubic_spline(i)) >= 0; 
             int = i;
             break;
         end
     end
-    y_cubic_interp(j) = a(int) + (b(int) .* x) + (c(int) .* (x .^ 2)) + (d(int) .* (x .^ 3));
+    y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
 end
 
 % plot the spline and G20
