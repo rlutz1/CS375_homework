@@ -3,7 +3,7 @@
 % 11/10/2025
 % HW6
 
-function [a, b, c, d] = cubic_spline(x, y)
+function [a, b, c, d] = spline_deg_3(x, y)
 
     % attempting to follow the burden textbook for natural spline, page 147
     n = length(x);

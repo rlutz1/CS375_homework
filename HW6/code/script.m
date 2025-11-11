@@ -46,7 +46,7 @@ x_cubic_spline = [start_pt:h_equispaced:end_pt];
 y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 
 % I believe this is yielding a + bx + cx2 + dx3
-[a, b, c, d] = cubic_spline(x_cubic_spline, y_cubic_spline);
+[a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
 
 x_cubic_interp = [start_pt:h:end_pt];
 % basically we need to go through each of these points
@@ -79,3 +79,8 @@ ylabel('Function Output');
 grid on;
 
 % and grab the correct coefficients
+
+% TODO:
+% 1. plot all 3 against each other. plot errors as well for visuals.
+% 2. plot on [-5, 5] and see what happens with n = 10
+% 3. try increasing n to see how that effects [-5, 5] results.
