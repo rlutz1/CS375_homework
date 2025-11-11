@@ -12,6 +12,10 @@ h = 0.01;
 % exact function to compare to
 x_exact = [start_pt:h:end_pt];
 y_exact = tanh(x_exact);
+ 
+% ================================================
+%  BUILD CLASSIC P10 ON [-3, 3]
+% ================================================
 
 n = 10; % P10, 11 equispaced nodes (n + 1 nodes)
 h_equispaced = (end_pt - start_pt) / n; % get equispace
@@ -40,6 +44,27 @@ ylabel('Function Output');
 % ylim([0, 1]); % limit specified as needed
 grid on;
 
+% error plot
+error = abs(y_exact - y_P10_Interp);
+
+figure('Name', 'Absolute Error of Interpolating Polynomial Approximation'); %plotting the error
+plot( ...
+    x_exact, error, '.-r', ...
+    LineWidth=1.5 ...
+);
+hold on;
+legend( ...
+    "Error of Interp Poly, n = " + n ...
+    );
+title("Interpolating Polynomial Error, n = " + n);
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('|Exact - Approximate|');
+grid on;
+
+% ================================================
+%  BUILD CUBIC SPLINE INTERPOLATION ON [-3, 3]
+% ================================================
+
 n = 10; % 11 equispaced nodes for now (n + 1 nodes)
 h_equispaced = (end_pt - start_pt) / n; % get equispace
 x_cubic_spline = [start_pt:h_equispaced:end_pt];
@@ -51,7 +76,6 @@ y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 x_cubic_interp = [start_pt:h:end_pt];
 % basically we need to go through each of these points
 % figure out which interval theyre in
-int = -1;
 % find the correct interval x is within
 for j = 1:length(x_cubic_interp);
     x = x_cubic_interp(j);
@@ -61,10 +85,11 @@ for j = 1:length(x_cubic_interp);
             break;
         end
     end
+    % and grab the correct coefficients and calculate
     y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
 end
 
-% plot the spline and G20
+% plot the cubic spline and exact
 figure('Name', "S" + (n + 1) + ", Exact tanh(x)");
 plot( ...
     x_exact, y_exact, '--c' , ...
@@ -78,9 +103,40 @@ ylabel('Function Output');
 % ylim([0, 1]); % limit specified as needed
 grid on;
 
-% and grab the correct coefficients
+
+% error plot
+error = abs(y_exact - y_cubic_interp);
+
+figure('Name', 'Absolute Error of Cubic Spline Approximation'); %plotting the error
+plot( ...
+    x_exact, error, '.-r', ...
+    LineWidth=1.5 ...
+);
+hold on;
+legend( ...
+    "Error of Cubic Spline, n = " + n ...
+    );
+title("Degree 3 Spline Error, n = " + n);
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('|Exact - Approximate|');
+grid on;
+
 
 % TODO:
 % 1. plot all 3 against each other. plot errors as well for visuals.
 % 2. plot on [-5, 5] and see what happens with n = 10
 % 3. try increasing n to see how that effects [-5, 5] results.
+
+% ================================================
+%  PLOT ALL 3 AGAINST EACH OTHER
+% ================================================
+
+
+
+% ================================================
+%  INCREASE INTERVAL TO [-5, 5], n = 10
+% ================================================
+
+% ================================================
+%  INCREASE n ON [-5, 5]
+% ================================================
