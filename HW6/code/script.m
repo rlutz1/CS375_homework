@@ -38,7 +38,7 @@ plot( ...
     'LineWidth', 1.5 ...
     )
 legend("Exact tanh(x) Values", "P" + n);
-title('P10 VS Exact tanh(x)')
+title("P" + n + " VS Exact tanh(x)");
 xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
 ylabel('Function Output');
 % ylim([0, 1]); % limit specified as needed
@@ -97,7 +97,7 @@ plot( ...
     'LineWidth', 1.5 ...
     )
 legend("Exact tanh(x) Values", "S" + (n + 1));
-title('S10 VS Exact tanh(x)')
+title("S" + (n + 1) + " VS Exact tanh(x)");
 xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
 ylabel('Function Output');
 % ylim([0, 1]); % limit specified as needed
@@ -131,7 +131,40 @@ grid on;
 %  PLOT ALL 3 AGAINST EACH OTHER
 % ================================================
 
+% plot the cubic spline and exact
+figure('Name', "P" + n + ", S" + (n + 1) + ", Exact tanh(x)");
+plot( ...
+    x_exact, y_exact, '--c' , ...
+    x_cubic_interp, y_cubic_interp, '--y', ...
+    x_P10_Interp, y_P10_Interp, '--r', ...
+    'LineWidth', 1.5 ...
+    )
+legend("Exact tanh(x) Values", "S" + (n + 1), "P" + n);
+title("P" + n + ", S" + (n + 1) + " VS Exact tanh(x)");
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('Function Output');
+% ylim([0, 1]); % limit specified as needed
+grid on;
 
+% error plot
+error_spline = abs(y_exact - y_cubic_interp);
+error_poly = abs(y_exact - y_P10_Interp);
+
+figure('Name', 'Absolute Error of Cubic Spline Approximation'); %plotting the error
+plot( ...
+    x_exact, error_spline, '.-y', ...
+    x_exact, error_poly, '.-r', ...
+    LineWidth=1.5 ...
+);
+hold on;
+legend( ...
+    "Error of Cubic Spline, n = " + n, ...
+    "Error of Interp Poly, n = " + n ...
+    );
+title("Degree 3 Spline and Polynomial Error, n = " + n);
+xlabel("Domain, [" + start_pt + ", " + end_pt + "]");
+ylabel('|Exact - Approximate|');
+grid on;
 
 % ================================================
 %  INCREASE INTERVAL TO [-5, 5], n = 10
