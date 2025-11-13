@@ -30,7 +30,7 @@ for i = 1:length(x_P10_Interp);
     y_P10_Interp(i) = Eval(n, x_P10, a_coeff, x_P10_Interp(i));
 end;
 
-% plot the spline and G20
+% plot the P10
 figure('Name', "P" + n + ", Exact tanh(x)");
 plot( ...
     x_exact, y_exact, '--c' , ...
@@ -70,24 +70,35 @@ h_equispaced = (end_pt - start_pt) / n; % get equispace
 x_cubic_spline = [start_pt:h_equispaced:end_pt];
 y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 
+% USING BURDEN TEXTBOOK CODE
 % I believe this is yielding a + bx + cx2 + dx3
-[a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% [a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% 
+% x_cubic_interp = [start_pt:h:end_pt];
+% % basically we need to go through each of these points
+% % figure out which interval theyre in
+% % find the correct interval x is within
+% for j = 1:length(x_cubic_interp);
+%     x = x_cubic_interp(j);
+%     for i = n-1:-1:1
+%         if (x - x_cubic_spline(i)) >= 0; 
+%             int = i;
+%             break;
+%         end
+%     end
+%     % and grab the correct coefficients and calculate
+%     y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% end
 
+% USING SUPPLIED CODE
 x_cubic_interp = [start_pt:h:end_pt];
-% basically we need to go through each of these points
-% figure out which interval theyre in
-% find the correct interval x is within
-for j = 1:length(x_cubic_interp);
-    x = x_cubic_interp(j);
-    for i = n-1:-1:1
-        if (x - x_cubic_spline(i)) >= 0; 
-            int = i;
-            break;
-        end
-    end
-    % and grab the correct coefficients and calculate
-    y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% gather needed coefficients
+[x_cubic_spline, y, z] = Spline3_Coeff(x_cubic_spline, y_cubic_spline);
+% evaluation
+for i = 1:length(x_cubic_interp)
+    y_cubic_interp(i) = Spline3_Eval(x_cubic_spline, y, z, x_cubic_interp(i));
 end
+
 
 % plot the cubic spline and exact
 figure('Name', "S" + (n + 1) + ", Exact tanh(x)");
@@ -188,23 +199,33 @@ end;
 x_cubic_spline = [start_pt:h_equispaced:end_pt];
 y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 
-% I believe this is yielding a + bx + cx2 + dx3
-[a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% USING BURDEN TEXTBOOK CODE
+% % I believe this is yielding a + bx + cx2 + dx3
+% [a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% 
+% x_cubic_interp = [start_pt:h:end_pt];
+% % basically we need to go through each of these points
+% % figure out which interval theyre in
+% % find the correct interval x is within
+% for j = 1:length(x_cubic_interp);
+%     x = x_cubic_interp(j);
+%     for i = n-1:-1:1
+%         if (x - x_cubic_spline(i)) >= 0; 
+%             int = i;
+%             break;
+%         end
+%     end
+%     % and grab the correct coefficients and calculate
+%     y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% end
 
+% USING SUPPLIED CODE
 x_cubic_interp = [start_pt:h:end_pt];
-% basically we need to go through each of these points
-% figure out which interval theyre in
-% find the correct interval x is within
-for j = 1:length(x_cubic_interp);
-    x = x_cubic_interp(j);
-    for i = n-1:-1:1
-        if (x - x_cubic_spline(i)) >= 0; 
-            int = i;
-            break;
-        end
-    end
-    % and grab the correct coefficients and calculate
-    y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% gather needed coefficients
+[x_cubic_spline, y, z] = Spline3_Coeff(x_cubic_spline, y_cubic_spline);
+% evaluation
+for i = 1:length(x_cubic_interp)
+    y_cubic_interp(i) = Spline3_Eval(x_cubic_spline, y, z, x_cubic_interp(i));
 end
 
 % plot the cubic spline and exact
@@ -249,7 +270,7 @@ grid on;
 
 clearvars y_cubic_interp x_cubic_interp a b c d a_coeff x_P10_Interp y_P10_Interp x_cubic_spline y_cubic_spline
 
-n = 30; % changed n to see effects on [-5, 5]
+n = 20; % changed n to see effects on [-5, 5]
 
 % polynomial interpolation
 h_equispaced = (end_pt - start_pt) / n; % get equispace
@@ -268,23 +289,33 @@ end;
 x_cubic_spline = [start_pt:h_equispaced:end_pt];
 y_cubic_spline = tanh(x_cubic_spline); % evaluate data points
 
+% USING BURDEN TEXTBOOK CODE
 % I believe this is yielding a + bx + cx2 + dx3
-[a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% [a, b, c, d] = spline_deg_3(x_cubic_spline, y_cubic_spline);
+% 
+% x_cubic_interp = [start_pt:h:end_pt];
+% % basically we need to go through each of these points
+% % figure out which interval theyre in
+% % find the correct interval x is within
+% for j = 1:length(x_cubic_interp);
+%     x = x_cubic_interp(j);
+%     for i = n-1:-1:1
+%         if (x - x_cubic_spline(i)) >= 0; 
+%             int = i;
+%             break;
+%         end
+%     end
+%     % and grab the correct coefficients and calculate
+%     y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% end
 
+% USING SUPPLIED CODE
 x_cubic_interp = [start_pt:h:end_pt];
-% basically we need to go through each of these points
-% figure out which interval theyre in
-% find the correct interval x is within
-for j = 1:length(x_cubic_interp);
-    x = x_cubic_interp(j);
-    for i = n-1:-1:1
-        if (x - x_cubic_spline(i)) >= 0; 
-            int = i;
-            break;
-        end
-    end
-    % and grab the correct coefficients and calculate
-    y_cubic_interp(j) = a(int) + (b(int) .* (x - x_cubic_spline(int))) + (c(int) .* ((x - x_cubic_spline(int)) .^ 2)) + (d(int) .* ((x - x_cubic_spline(int)) .^ 3));
+% gather needed coefficients
+[x_cubic_spline, y, z] = Spline3_Coeff(x_cubic_spline, y_cubic_spline);
+% evaluation
+for i = 1:length(x_cubic_interp)
+    y_cubic_interp(i) = Spline3_Eval(x_cubic_spline, y, z, x_cubic_interp(i));
 end
 
 % plot the cubic spline and exact
