@@ -270,19 +270,19 @@ grid on;
 
 clearvars y_cubic_interp x_cubic_interp a b c d a_coeff x_P10_Interp y_P10_Interp x_cubic_spline y_cubic_spline
 
-n = 20; % changed n to see effects on [-5, 5]
+n = 30; % changed n to see effects on [-5, 5]
 
 % polynomial interpolation
 h_equispaced = (end_pt - start_pt) / n; % get equispace
-x_P10 = [start_pt:h_equispaced:end_pt];
-y_P10 = tanh(x_P10); % evaluate data points
+x_Pn = [start_pt:h_equispaced:end_pt];
+y_Pn = tanh(x_Pn); % evaluate data points
 
-a_coeff = Coef(n, x_P10, y_P10); % get coefficients
+a_coeff = Coef(n, x_Pn, y_Pn); % get coefficients
 
 % evaluate the interpolating polynomial at a finer mesh
-x_P10_Interp = [start_pt:h:end_pt];
-for i = 1:length(x_P10_Interp);
-    y_P10_Interp(i) = Eval(n, x_P10, a_coeff, x_P10_Interp(i));
+x_Pn_Interp = [start_pt:h:end_pt];
+for i = 1:length(x_Pn_Interp);
+    y_Pn_Interp(i) = Eval(n, x_Pn, a_coeff, x_Pn_Interp(i));
 end;
 
 % cubic spline interpolation
@@ -323,7 +323,7 @@ figure('Name', "P" + n + ", S" + (n + 1) + ", Exact tanh(x), Changed n");
 plot( ...
     x_exact, y_exact, '--c' , ...
     x_cubic_interp, y_cubic_interp, '--y', ...
-    x_P10_Interp, y_P10_Interp, '--r', ...
+    x_Pn_Interp, y_Pn_Interp, '--r', ...
     'LineWidth', 1.5 ...
     )
 legend("Exact tanh(x) Values", "S" + (n + 1), "P" + n);
@@ -335,7 +335,7 @@ grid on;
 
 % error plot
 error_spline = abs(y_exact - y_cubic_interp);
-error_poly = abs(y_exact - y_P10_Interp);
+error_poly = abs(y_exact - y_Pn_Interp);
 
 figure('Name', 'Absolute Error of Cubic Spline and Polynomial, Changed n'); %plotting the error
 plot( ...
