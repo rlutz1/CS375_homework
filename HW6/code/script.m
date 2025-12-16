@@ -114,7 +114,6 @@ ylabel('Function Output');
 % ylim([0, 1]); % limit specified as needed
 grid on;
 
-
 % error plot
 error = abs(y_exact - y_cubic_interp);
 
@@ -270,7 +269,7 @@ grid on;
 
 clearvars y_cubic_interp x_cubic_interp a b c d a_coeff x_P10_Interp y_P10_Interp x_cubic_spline y_cubic_spline
 
-n = 30; % changed n to see effects on [-5, 5]
+n = 20; % changed n to see effects on [-5, 5]
 
 % polynomial interpolation
 h_equispaced = (end_pt - start_pt) / n; % get equispace

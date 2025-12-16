@@ -42,4 +42,4 @@ Functions provided for use by Dr. Orizaga. Used for generating an interpolating 
 
 NOTE: included in the code file, but the code using this is commented out in favor of using the code distributed in class. This is still included in the submission for record purposes.
 
-A file to methodize the generation/evaluation of a degree 3 spline interpolation. This is directly adapated from the Burden textbook pseudocode for a natural cubic spline generation, page 147.
+A file to methodize the generation/evaluation of a degree 3 spline interpolation. This is directly adapted from the Burden textbook pseudocode for a natural cubic spline generation, page 147.
